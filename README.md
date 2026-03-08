@@ -4,10 +4,13 @@ I got tired of writing together transponders in notepad++ files and automating p
 
 ## How it works
 Quite simple, you enter the data you have access to and then you press save .trsp file, and voila, you have a ready transponder file!
-As for the moment, I have only tested it on my Windows 11 computer, I will try to make an HTML file to be able to get around OS support.
+As for the moment, I have only tested it on my Windows 11 computer, I've been thinking about making an HTML page so that you don't have to be independent of which operating system you have, but we'll see.
 It is written in Python and run with PyInstaller to create an .EXE file, but I have put the Python program in the scr folder in case you have a different operating system or want to test it.
-If you have several different transponders on the same satellite, you can add blocks for each transponder.
+If you have several different transponders on the same satellite, you can add blocks for each transponder. 
 
-![trsp](https://github.com/user-attachments/assets/a63105b4-18ee-4293-861f-6a2712618e3d)
+[TRSP_V1.3.bmp](https://github.com/user-attachments/files/25828040/TRSP_V1.3.bmp)
 
-I recommend saving all files in a separate folder and then copying them to --> C:\Users\<Username>\Gpredict\trsp (on Windows) because every time you update the transponder data it will be overwritten. Or just make it read-only =)
+
+I recommend saving all files in a separate folder and then copying them to --> C:\Users\<Username>\Gpredict\trsp (on Windows) ~~because every time you update the transponder data it will be overwritten. Or just make it read-only =)~~
+
+New featur, you can make the trsp file as a read-only!
