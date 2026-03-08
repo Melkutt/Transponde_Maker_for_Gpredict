@@ -201,28 +201,35 @@ class TrspGenerator:
         v_norad = self.entry_norad.get().strip()
         e_norad = bool(v_norad and not v_norad.isdigit())
         set_style(self.entry_norad, e_norad)
+
         
         # --- UNIQUE NAME check (Important for Gpredict) ---
+        
         v_name = self.inputs["name"].get().strip()
-        # Hämta alla namn som redan finns i listboxen
         existing_names = [self.listbox.get(i).split(' (')[0].strip() for i in range(self.listbox.size())]
         
         name_exists = v_name in existing_names
         name_empty = not v_name
+
         
         # --- If name exists or is empty = Error ---
+        
         set_style(self.inputs["name"], name_exists or name_empty)
         if name_exists:
             errors = True
 
+        
         # ---  Numeric check for frequencies and baud ---
+        
         for k in ["d_low", "d_high", "u_low", "u_high", "baud"]:
             val = self.inputs[k].get().strip()
             err = bool(val and not val.isdigit())
             set_style(self.inputs[k], err)
             if err: errors = True
-            
+
+        
         # --- Logic check (High must not be lower than Low) ---
+        
         try:
             d_low = self.inputs["d_low"].get().strip()
             d_high = self.inputs["d_high"].get().strip()
@@ -232,7 +239,9 @@ class TrspGenerator:
         except ValueError:
             pass
 
+        
         # --- Final check to activate the button ---
+        
         if not v_norad or not v_name or not self.inputs["d_low"].get().strip() or e_norad or name_exists:
             errors = True
         
@@ -241,7 +250,7 @@ class TrspGenerator:
 
     def add_block(self):
         name = self.inputs["name"].get().strip()
-        # ... logic ...
+       
         self.blocks.append(f"[{name}]")
         self.listbox.insert(tk.END, f"{name}")
         self.clear_fields()
@@ -261,13 +270,49 @@ class TrspGenerator:
         self.validate_all()
 
     def save_file(self):
-        if not self.entry_norad.get() or not self.blocks: return
-        p = filedialog.asksaveasfilename(defaultextension=".trsp")
-        if p:
-            with open(p, "w") as f: f.write("\n".join(self.blocks))
-            messagebox.showinfo("Done", "File saved!")
+        
+        
+        # --- Get the NORAD ID for the file name ---
+        
+        norad = self.entry_norad.get().strip()
+        
+        
+        # --- Check that we have both an ID and at least one block added ---
+        
+        if not norad or not self.blocks:
+            messagebox.showwarning("Warning", "You must enter a NORAD ID!")
+            return
+        
+        
+        # --- Create the default file name ---
+        
+        default_filename = f"{norad}.trsp"
+        
+        
+        # --- Open the file dialog with the default name ---
+        
+        filepath = filedialog.asksaveasfilename(
+            defaultextension=".trsp",
+            initialfile=default_filename,
+            filetypes=[("Transponder files", "*.trsp"), ("All files", "*.*")]
+        )
+        
+        if filepath:
+            try:
+                with open(filepath, "w") as f:
+                    f.write("\n\n".join(self.blocks))
+                
+                # Om Read-Only är ikryssat
+                if self.var_readonly.get():
+                    os.chmod(filepath, 0o444)
+                
+                messagebox.showinfo("Done!", f"File saved as: {os.path.basename(filepath)}")
+            except Exception as e:
+                messagebox.showerror("Error", f"Could not save file: {e}")
+
 
 if __name__ == "__main__":
     root = tk.Tk()
     app = TrspGenerator(root)
+
     root.mainloop()
