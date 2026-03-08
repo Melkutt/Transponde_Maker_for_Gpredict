@@ -1,0 +1,8 @@
+If you want to try compiling it yourself, you will need the following files:
+V1.3.py (or the namn you chooses)
+satellite-dish.png (Same here)
+logo.ico
+
+In the address bar of the folder where the Python program and images are located, press CMD and add the following:
+
+python -m PyInstaller --noconsole --onefile --add-data "satellite-dish.png;." --icon="logo.ico" V1.3.py
