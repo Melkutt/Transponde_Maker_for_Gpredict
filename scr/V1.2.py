@@ -3,9 +3,9 @@
 Created on Sun Mar  8 21:01:28 2026
 
 GitHub: https://github.com/Melkutt/Transponder_Maker_for_Gpredict
-Credit to https://www.flaticon.com/free-icon/satellite-tv_88136 for the satelltite dish logo
+Credit to https://www.flaticon.com/free-icon/satellite-tv_88136 for the satellite dish logo
 
-@author: Melker
+@author: Melker - SA1CKW
 """
 
 
